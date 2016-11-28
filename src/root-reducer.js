@@ -1,9 +1,10 @@
 import { combineReducers } from 'redux'
 
 function reducer(state = [], action){
+  debugger
   switch (action.type) {
     case "FETCH_VIDEOS":
-      //fill this in
+      return action.payload.data.items
     default:
       return state
   }
