@@ -5,7 +5,7 @@ export default class MainComponent extends React.Component{
       <div>
         <h3>{this.props.video.snippet.channelTitle}</h3>
         <p>{this.props.video.snippet.description}</p>
-        <img src={this.props.video.snippet.thumbnails.default.url} alt='0'/>
+        <iframe src={"https://www.youtube.com/embed/" + this.props.video.id.videoId} height='380' width='420'/>
       </div>
     )
   }

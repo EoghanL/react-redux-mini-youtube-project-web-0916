@@ -7,8 +7,6 @@ import './App.css';
 
 const myStore = store
 
-
-
 ReactDOM.render(
   <Provider store={myStore}>
     <App />

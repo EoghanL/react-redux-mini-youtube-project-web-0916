@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import fetchVideos from './actions'
+import { fetchVideos } from './actions'
+import { switchVideos } from './actions'
 import { bindActionCreators} from 'redux'
 import MainComponent from './MainComponent'
+import SideComponent from './SideComponent'
 import './App.css';
 
 class App extends Component {
@@ -15,16 +17,32 @@ class App extends Component {
     event.preventDefault();
     let searchTerm = event.target.children[0].value
     console.log(searchTerm);
-    debugger
     this.props.findVids(searchTerm)
   }
 
+  swapVideos(number){
+    let newMain = this.props.sideVids.filter((vid) => {
+        return vid.id.videoId === number
+      })
+    let newSides = this.props.sideVids.filter((vid) => {
+        return vid.id.videoId !== number
+      })
+    newSides.push(Object.assign({},this.props.mainVid))
+    debugger
+    this.props.switchVids(newMain, newSides)
+  }
+
+
+
   render() {
     let display = ''
-    if(this.props.videos.length > 0){
-      display = <MainComponent video={this.props.videos[0]} />
+    let sideBar = []
+    if(this.props.sideVids.length > 0){
+      display = <MainComponent video={this.props.mainVid} />
+      sideBar = this.props.sideVids.map((video)=>{
+        return <SideComponent video={video} swapVideos={this.swapVideos.bind(this)}/>
+      })
     }
-    debugger
     return (
       <div className="App">
         <form onSubmit={this.findVideos}>
@@ -34,19 +52,32 @@ class App extends Component {
         <div>
           {display}
         </div>
+        <div>
+          {sideBar}
+        </div>
       </div>
 
     );
   }
 }
 function mapDispatchToProps(dispatch){
-  return bindActionCreators({ findVids: fetchVideos}, dispatch)
+  return bindActionCreators({ findVids: fetchVideos, switchVids: switchVideos}, dispatch)
 }
 function mapStateToProps(state){
-  return { videos: state.reducer }
+  return { mainVid: state.mainVid, sideVids: state.sideVids }
 }
-
-
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)
+
+// switchVids(numbah){
+//   this.props.sideVids.push(this.props.mainVid)
+//   debugger
+//   this.props.mainVid = this.props.sideVids.filter((vid) => {
+//     return vid.id.videoId === numbah
+//   })
+//   this.props.sideVids = this.props.sideVids.filter((vid) => {
+//     return vid.id.videoId !== numbah
+//   })
+//   this.forceUpdate()
+// }
