@@ -49,12 +49,12 @@ class App extends Component {
           <input type='text' placeholder='Enter your seach term here' />
           <button type='submit'>Search</button>
         </form>
-        <div>
+        <section className="section">
           {display}
-        </div>
-        <div>
+        </section>
+        <aside className="aside">
           {sideBar}
-        </div>
+        </aside>
       </div>
 
     );
